@@ -1,6 +1,9 @@
 import streamlit as st
 import random
+import json
+import os
 
+# Affirmations and song recommendations
 affirmations = {
     "Happy": [
         "You radiate positivity and light wherever you go.",
@@ -39,6 +42,21 @@ songs = {
 
 choices = ["Rock", "Paper", "Scissors"]
 
+# Define the path for the sticky notes file
+notes_file_path = "sticky_notes.json"
+
+# Function to load notes from the file
+def load_notes():
+    if os.path.exists(notes_file_path):
+        with open(notes_file_path, "r") as file:
+            return json.load(file)
+    return []
+
+# Function to save notes to the file
+def save_notes(notes):
+    with open(notes_file_path, "w") as file:
+        json.dump(notes, file)
+
 def rock_paper_scissors():
     st.subheader("Rock, Paper, Scissors Game")
     st.write("Choose Rock, Paper, or Scissors!")
@@ -62,24 +80,26 @@ def rock_paper_scissors():
 def sticky_notes():
     st.subheader("Sticky Notes")
 
-    if 'notes' not in st.session_state:
-        st.session_state.notes = []
+    # Load notes from the file
+    notes = load_notes()
 
     new_note = st.text_input("Write something down maybe a love note or something 😉:")
     if st.button("Add Note"):
         if new_note.strip():
-            st.session_state.notes.append(new_note)
+            notes.append(new_note)
+            save_notes(notes)  # Save the updated notes to the file
             st.success("Added!")
         else:
             st.warning("Cannot add an empty note.")
 
-    if st.session_state.notes:
-        st.write("### Whats the tea? 🍵 :")
-        for i, note in enumerate(st.session_state.notes):
+    if notes:
+        st.write("### What's the tea? 🍵 :")
+        for i, note in enumerate(notes):
             st.write(f"{i + 1}. {note}")
 
         if st.button("Clear All Notes"):
-            st.session_state.notes = []
+            notes.clear()  # Clear the notes
+            save_notes(notes)  # Save the empty notes list
             st.success("All notes cleared!")
 
 def affirmation_generator():
@@ -138,7 +158,6 @@ def main():
     )
 
     st.image("banner.png",  use_container_width=True)
-
 
     st.write("Happy 2 years to us baby!! I just wanted to do something for you so I decided to do this using the things I have learnt in school 🤓 I hope you like it!")
 
