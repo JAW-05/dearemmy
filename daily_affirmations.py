@@ -55,9 +55,9 @@ def rock_paper_scissors():
         elif (user_choice == "Rock" and computer_choice == "Scissors") or \
              (user_choice == "Paper" and computer_choice == "Rock") or \
              (user_choice == "Scissors" and computer_choice == "Paper"):
-            st.write("You win!")
+            st.write("You win! 😁")
         else:
-            st.write("You lose!")
+            st.write("You lose! ☹️")
 
 def sticky_notes():
     st.subheader("Sticky Notes")
@@ -65,16 +65,16 @@ def sticky_notes():
     if 'notes' not in st.session_state:
         st.session_state.notes = []
 
-    new_note = st.text_input("Write your sticky note:")
+    new_note = st.text_input("Write something down maybe a love note or something 😉:")
     if st.button("Add Note"):
         if new_note.strip():
             st.session_state.notes.append(new_note)
-            st.success("Note added!")
+            st.success("Added!")
         else:
             st.warning("Cannot add an empty note.")
 
     if st.session_state.notes:
-        st.write("### Your Sticky Notes:")
+        st.write("### Whats the tea? 🍵 :")
         for i, note in enumerate(st.session_state.notes):
             st.write(f"{i + 1}. {note}")
 
@@ -85,7 +85,7 @@ def sticky_notes():
 def affirmation_generator():
     feeling = st.selectbox("How are you feeling today?", list(affirmations.keys()))
 
-    if st.button("Generate Affirmation ✨"):
+    if st.button("Affirmations from Jerrybear"):
         affirmation = random.choice(affirmations[feeling])
         st.markdown(f'<div class="stSuccess">{affirmation}</div>', unsafe_allow_html=True)
 
@@ -137,9 +137,9 @@ def main():
         unsafe_allow_html=True
     )
 
-    st.image("banner.png", use_column_width=True)
+    st.image("banner.png",  use_container_width=True)
 
-    st.title("🌸 Dear Emmy 🌸")
+
     st.write("Happy 2 years to us baby!! I just wanted to do something for you so I decided to do this using the things I have learnt in school 🤓 I hope you like it!")
 
     choice = st.selectbox("What would you like to do?", ["Affirmations from Jerrybear", "Manage Sticky Notes", "Play Rock, Paper, Scissors"])
